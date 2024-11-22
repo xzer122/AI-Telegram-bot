@@ -1,16 +1,24 @@
-# This is a sample Python script.
+import asyncio
+import logging
+import os
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+from aiogram import Dispatcher, Bot
+from aiogram.filters import CommandStart
+from aiogram_dialog import setup_dialogs
+
+BOT_TOKEN = os.getenv('AI_NUMEROLOGIST')
+dp = Dispatcher()
+bot = Bot(token=BOT_TOKEN)
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+async def main():
+    logging.basicConfig(level=logging.INFO)
+    dp.message.register(cmd_start, CommandStart())
+    dp.include_router(acquaintance)
+    dp.include_router(numerologist)
+    setup_dialogs(dp)
+    await dp.start_polling(bot)
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+if __name__ == "__main__":
+    asyncio.run(main())
