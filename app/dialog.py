@@ -4,20 +4,22 @@ from aiogram_dialog.widgets.kbd import Next
 from aiogram_dialog.widgets.text import Const, Format
 
 from app import texts
-from states import AcquaintanceSG
+from app.texts import preferences
+from states import NumerologistSG
 from handlers import get_name, get_date_of_birth
 
-acquaintance = Dialog(
+numerologist = Dialog(
     Window(Const(texts.greeting),
            Next(Const("Начать знакомство")),
-           state=AcquaintanceSG.greeting),
+           state=NumerologistSG.greeting),
     Window(Format("{ai_response_name}"),
            MessageInput(get_name),
-           state=AcquaintanceSG.name),
-    Window(Format("{ai_response_name}"),
+           state=NumerologistSG.name),
+    Window(Format("{ai_response_birth}"),
            MessageInput(get_date_of_birth),
-           state=AcquaintanceSG.date_of_birth)
-)
-
-numerologist = Dialog(
+           state=NumerologistSG.date_of_birth),
+    Window(Format("{ai_response_preferences}"),
+           MessageInput(preferences),
+           state=NumerologistSG.preferences),
+    Window(Const(texts.fortune))
 )

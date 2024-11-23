@@ -6,6 +6,9 @@ from aiogram import Dispatcher, Bot
 from aiogram.filters import CommandStart
 from aiogram_dialog import setup_dialogs
 
+from app.dialog import numerologist, numerologist
+from app.handlers import cmd_start
+
 BOT_TOKEN = os.getenv('AI_NUMEROLOGIST')
 dp = Dispatcher()
 bot = Bot(token=BOT_TOKEN)
@@ -14,7 +17,6 @@ bot = Bot(token=BOT_TOKEN)
 async def main():
     logging.basicConfig(level=logging.INFO)
     dp.message.register(cmd_start, CommandStart())
-    dp.include_router(acquaintance)
     dp.include_router(numerologist)
     setup_dialogs(dp)
     await dp.start_polling(bot)
