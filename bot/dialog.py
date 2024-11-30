@@ -3,10 +3,9 @@ from aiogram_dialog.widgets.input import MessageInput
 from aiogram_dialog.widgets.kbd import Next
 from aiogram_dialog.widgets.text import Const, Format
 
-from app import texts
-from app.texts import preferences
-from states import NumerologistSG
+import texts
 from handlers import get_name, get_date_of_birth
+from states import NumerologistSG
 
 numerologist = Dialog(
     Window(Const(texts.greeting),
@@ -19,7 +18,9 @@ numerologist = Dialog(
            MessageInput(get_date_of_birth),
            state=NumerologistSG.date_of_birth),
     Window(Format("{ai_response_preferences}"),
-           MessageInput(preferences),
+           MessageInput(texts.preferences),
            state=NumerologistSG.preferences),
-    Window(Const(texts.fortune))
+    Window(Const(texts.fortune),
+           MessageInput(),
+           state=NumerologistSG.fortune_roll)
 )

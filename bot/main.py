@@ -6,8 +6,8 @@ from aiogram import Dispatcher, Bot
 from aiogram.filters import CommandStart
 from aiogram_dialog import setup_dialogs
 
-from app.dialog import numerologist
-from app.handlers import cmd_start
+from dialog import numerologist
+from handlers import cmd_start
 
 BOT_TOKEN = os.getenv('AI_NUMEROLOGIST')
 dp = Dispatcher()

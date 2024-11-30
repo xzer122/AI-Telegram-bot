@@ -2,7 +2,7 @@ from aiogram.types import Message
 from aiogram_dialog import DialogManager, StartMode
 from aiogram_dialog.widgets.input import MessageInput
 
-from app.states import NumerologistSG
+from states import NumerologistSG
 
 
 async def cmd_start(message: Message, dialog_manager: DialogManager):
