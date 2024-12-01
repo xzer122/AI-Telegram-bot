@@ -2,3 +2,4 @@ aiogram_dialog~=2.2.0
 aiogram~=3.15.0
 openai~=1.55.0
 pyairtable~=3.0.0
+django~=5.1.3
