@@ -19,6 +19,3 @@ def generate_message(context=None):
         max_tokens=7000
     )
     return completion
-
-
-print(generate_message())

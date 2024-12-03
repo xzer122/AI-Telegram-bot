@@ -1,8 +1,7 @@
-from aiogram.fsm.state import StatesGroup
+from aiogram.fsm.state import StatesGroup, State
 
 
 class NumerologistSG(StatesGroup):
-    greeting = State()
     name = State()
     date_of_birth = State()
     preferences = State()
