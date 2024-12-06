@@ -2,9 +2,9 @@ from aiogram.types import Message
 from aiogram_dialog import DialogManager, StartMode
 from aiogram_dialog.widgets.input import MessageInput
 
-from bot.ai import generate_message
-from bot.models import UserTemp
-from bot.states import NumerologistSG
+from ai import generate_message
+from models import UserTemp
+from states import NumerologistSG
 
 users = {}
 
@@ -19,22 +19,47 @@ async def cmd_start(message: Message, dialog_manager: DialogManager):
     users[message.from_user.id] = user
     completion = generate_message(context)
     context.append(completion.choices[0].message)
-    await message.answer(completion.choices[0].message.content)
     users[message.from_user.id].context = context
     await dialog_manager.start(NumerologistSG.name, mode=StartMode.RESET_STACK)
 
 
 async def get_name(message: Message, inp: MessageInput, dialog_manager: DialogManager):
-    users[message.from_user.id].name = message.text
-    users[message.from_user.id].context.append({'role': 'user', 'content': message.text})
-    completion = generate_message(users[message.from_user.id].context)
-    await message.answer(completion.choices[0].message.content)
-    users[message.from_user.id].context.append(completion.choices[0].message)
-    await dialog_manager.next()
+    if message.text.lower() == 'вперёд' or message.text.lower() == 'вперед':
+        await dialog_manager.next()
+
+    user_id = message.from_user.id
+    users[user_id].context.append({'role': 'user', 'content': message.text})
+
+    if users[user_id].name == '':
+        name_context = users[user_id].context
+        name_context.append({'role': 'system', 'content': 'Пользователь указал своё имя? Отвечай "Да." или '
+                                                          '"Нет."'})
+        completion = generate_message(name_context)
+        if completion.choices[0].message.content == 'Да.':
+            users[user_id].name = completion.choices[0].message.content
+
+    completion = generate_message(users[user_id].context)
+    users[user_id].context.append(completion.choices[0].message)
+    print(users[user_id].name)
 
 
 async def get_date_of_birth(message: Message, inp: MessageInput, dialog_manager: DialogManager):
-    pass
+    if message.text.lower() == 'вперёд' or message.text.lower() == 'вперед':
+        await dialog_manager.next()
+
+    user_id = message.from_user.id
+    users[user_id].context.append({'role': 'user', 'content': message.text})
+
+    if users[user_id].name == '':
+        age_context = users[user_id].context
+        age_context.append({'role': 'system', 'content': 'Пользователь указал полную дату рождения? Отвечай "Да." '
+                                                         'или "Нет."'})
+        completion = generate_message(age_context)
+        if completion.choices[0].message.content == 'Да.':
+            users[user_id].name = completion.choices[0].message.content
+
+    completion = generate_message(users[user_id].context)
+    users[user_id].context.append(completion.choices[0].message)
 
 
 async def get_preferences(message: Message, inp: MessageInput, dialog_manager: DialogManager):

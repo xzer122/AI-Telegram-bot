@@ -2,7 +2,7 @@ import os
 
 from openai import OpenAI
 
-from bot import texts
+import texts
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
