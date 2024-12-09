@@ -10,7 +10,7 @@ users = {}
 
 
 async def cmd_start(message: Message, dialog_manager: DialogManager):
-    from bot import texts
+    from numerologist.mangment.bot import texts
     context = [
         {"role": "system", "content": texts.prompt},
         {"role": "user", "content": "/start"}
